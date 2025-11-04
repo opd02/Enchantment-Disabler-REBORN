@@ -28,6 +28,16 @@ public class MenuCommand implements CommandExecutor {
     public boolean onCommand(CommandSender sender, Command cmd, String label, String args[]){
         //need 5 rows for inv
         if(cmd.getLabel().equalsIgnoreCase("ed")){
+            if(args != null && args.length > 0 && args[0].equalsIgnoreCase("reload")){
+                if(!sender.hasPermission("enchantmentdisabler.reload")){
+                    sender.sendMessage(ChatColor.RED + "You do not have permission to reload this plugin.");
+                    return true;
+                }
+                plugin.reloadPluginConfigAndCaches();
+                sender.sendMessage(ChatColor.GREEN + "EnchantmentDisabler config reloaded.");
+                return true;
+            }
+
             if(!(sender instanceof Player)){
                 sender.sendMessage(ChatColor.RED + "This command is for players only.");
                 return true;
@@ -52,13 +62,12 @@ public class MenuCommand implements CommandExecutor {
 
                 ArrayList<String> lore = new ArrayList<String>();
                 lore.add("");
-                //lore.add(ChatColor.GRAY + "" + en.getName());
-                if(EnchantmentDisablerPlugin.blockedEnchants.get(en) == true){
+                if(Boolean.TRUE.equals(EnchantmentDisablerPlugin.blockedEnchants.get(en))){
                     lore.add("§c§lDISABLED");
                 }else{
                     lore.add("§a§lENABLED");
                 }
-                String line = Boolean.valueOf(EnchantmentDisablerPlugin.blockedEnchants.get(en)) ? ChatColor.GRAY + "§7Click to §aEnable" : "§7Click to §cDisable";
+                String line = Boolean.TRUE.equals(EnchantmentDisablerPlugin.blockedEnchants.get(en)) ? ChatColor.GRAY + "§7Click to §aEnable" : "§7Click to §cDisable";
                 lore.add(line);
 
                 bookMeta.setLore(lore);

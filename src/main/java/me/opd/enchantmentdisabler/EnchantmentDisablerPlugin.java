@@ -41,17 +41,27 @@ public final class EnchantmentDisablerPlugin extends JavaPlugin {
 
         ConfigUtilsEN.loadHashMapFromConfig(this);
         //System.out.println(EnchantmentDisablerPlugin.blockedEnchants.toString());
-        allowedEnchant = new ArrayList<>();
-
-        for(Enchantment en : EnchantmentDisablerPlugin.blockedEnchants.keySet()){
-            if(!EnchantmentDisablerPlugin.blockedEnchants.get(en)){
-                EnchantmentDisablerPlugin.allowedEnchant.add(en);
-                //System.out.println("Enchant is allowed: " + en.toString());
-            }
-        }
+        rebuildAllowedEnchant();
     }
 
     public void onDisable(){
         ConfigUtilsEN.syncHashMapWithConfig(this);
+    }
+
+    public void reloadPluginConfigAndCaches(){
+        reloadConfig();
+        EnchantmentDisablerPlugin.blockedEnchants.clear();
+        EnchantmentDisablerPlugin.allowedEnchant.clear();
+        ConfigUtilsEN.loadHashMapFromConfig(this);
+        rebuildAllowedEnchant();
+    }
+
+    private void rebuildAllowedEnchant(){
+        allowedEnchant = new ArrayList<>();
+        for(Enchantment en : EnchantmentDisablerPlugin.blockedEnchants.keySet()){
+            if(Boolean.FALSE.equals(EnchantmentDisablerPlugin.blockedEnchants.get(en))){
+                EnchantmentDisablerPlugin.allowedEnchant.add(en);
+            }
+        }
     }
 }

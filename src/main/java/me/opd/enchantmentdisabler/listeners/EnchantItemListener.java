@@ -43,7 +43,7 @@ public class EnchantItemListener implements Listener {
                 continue;
             }
 
-            if(!EnchantmentDisablerPlugin.blockedEnchants.get(entry.getKey())){
+            if(!Boolean.TRUE.equals(EnchantmentDisablerPlugin.blockedEnchants.get(entry.getKey()))){
                 continue;
             }
             toChange.add(entry.getKey());

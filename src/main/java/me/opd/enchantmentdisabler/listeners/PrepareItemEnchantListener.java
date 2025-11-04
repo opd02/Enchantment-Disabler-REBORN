@@ -33,7 +33,7 @@ public class PrepareItemEnchantListener implements Listener {
 
             long altSeed = seed + eo.getCost();
 
-            if(EnchantmentDisablerPlugin.blockedEnchants.get(eo.getEnchantment())){
+            if(Boolean.TRUE.equals(EnchantmentDisablerPlugin.blockedEnchants.get(eo.getEnchantment()))){
                 Enchantment replacementEnchant = EnchantmentDisablerPlugin.enchantUtils.newChosenEnchantment(e.getItem(), altSeed);
 
                 int enchantLevel = ((eo.getCost() /30) * replacementEnchant.getMaxLevel());
